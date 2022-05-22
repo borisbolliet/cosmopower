@@ -10,6 +10,8 @@ cosmopower/likelihoods/__pycache__
 cosmopower/likelihoods/tf_planck2018_lite/__pycache__
 tests/__pycache__
 
+
+
 # docs
 site/
 
@@ -22,3 +24,9 @@ notebooks/.ipynb_checkpoints
 notebooks/likelihoods_notebooks/.ipynb_checkpoints
 notebooks/getting_started_notebooks/.ipynb_checkpoints
 notebooks/training_notebooks/.ipynb_checkpoints
+
+cosmopower/training/spectra_generation_scripts/slurm_pipeline_all_probes
+cosmopower/training/spectra_generation_scripts/*tar.gz
+cosmopower/training/training_data
+
+.DS_Store
