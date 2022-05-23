@@ -49,53 +49,33 @@ def run(args):
         dict_from_yaml_file = yaml.load(f,Loader=yaml.FullLoader)
 
     classy_precision = dict_from_yaml_file['theory']['classy']['extra_args']
-    # try:
-    #     os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name)
-    # except FileExistsError:
-    #     print("File exist")
 
+
+    scratch_path = '/global/cscratch1/sd/bb3028/'
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/TT')
+        os.mkdir(scratch_path+data_dir_name)
     except FileExistsError:
         print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/TE')
+        os.mkdir(scratch_path+data_dir_name+'/TT')
     except FileExistsError:
         print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/EE')
+        os.mkdir(scratch_path+data_dir_name+'/TE')
     except FileExistsError:
         print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/PP')
+        os.mkdir(scratch_path+data_dir_name+'/EE')
     except FileExistsError:
         print("File exist")
 
-
-    # scratch_path = '/global/cscratch1/sd/bb3028'
-    #
-    # try:
-    #     os.mkdir(scratch_path+data_dir_name+'/TT')
-    # except FileExistsError:
-    #     print("File exist")
-    #
-    # try:
-    #     os.mkdir(scratch_path+data_dir_name+'/TE')
-    # except FileExistsError:
-    #     print("File exist")
-    #
-    # try:
-    #     os.mkdir(scratch_path+data_dir_name+'/EE')
-    # except FileExistsError:
-    #     print("File exist")
-    #
-    # try:
-    #     os.mkdir(scratch_path+data_dir_name+'/PP')
-    # except FileExistsError:
-    #     print("File exist")
+    try:
+        os.mkdir(scratch_path+data_dir_name+'/PP')
+    except FileExistsError:
+        print("File exist")
 
 
     # get path to the folder of this script
@@ -142,22 +122,22 @@ def run(args):
             derp.update(cosmo.get_current_derived_parameters([p]))
 
         cosmo_array_tt = np.hstack(([params_lhs[k][idx_sample] for k in params_lhs],[derp[k] for k in derp.keys()], clTT))
-        file_tt           = open(folder_path+'/TT/cls_tt_nointerp_{}.dat'.format(idx_process),'ab')
+        file_tt           = open(scratch_path+data_dir_name+'/TT/cls_tt_nointerp_{}.dat'.format(idx_process),'ab')
         np.savetxt(file_tt, [cosmo_array_tt])
         file_tt.close()
 
         cosmo_array_te = np.hstack(([params_lhs[k][idx_sample] for k in params_lhs],[derp[k] for k in derp.keys()], clTE))
-        file_te           = open(folder_path+'/TE/cls_te_nointerp_{}.dat'.format(idx_process),'ab')
+        file_te           = open(scratch_path+data_dir_name+'/TE/cls_te_nointerp_{}.dat'.format(idx_process),'ab')
         np.savetxt(file_te, [cosmo_array_te])
         file_te.close()
 
         cosmo_array_ee = np.hstack(([params_lhs[k][idx_sample] for k in params_lhs],[derp[k] for k in derp.keys()], clEE))
-        file_ee           = open(folder_path+'/EE/cls_ee_nointerp_{}.dat'.format(idx_process),'ab')
+        file_ee           = open(scratch_path+data_dir_name+'/EE/cls_ee_nointerp_{}.dat'.format(idx_process),'ab')
         np.savetxt(file_ee, [cosmo_array_ee])
         file_ee.close()
 
         cosmo_array_pp = np.hstack(([params_lhs[k][idx_sample] for k in params_lhs],[derp[k] for k in derp.keys()], clPP))
-        file_pp           = open(folder_path+'/PP/cls_pp_nointerp_{}.dat'.format(idx_process),'ab')
+        file_pp           = open(scratch_path+data_dir_name+'/PP/cls_pp_nointerp_{}.dat'.format(idx_process),'ab')
         np.savetxt(file_pp, [cosmo_array_pp])
         file_pp.close()
 
