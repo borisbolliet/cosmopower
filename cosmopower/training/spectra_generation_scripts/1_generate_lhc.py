@@ -1,5 +1,5 @@
 # this should be run with:
-#$ python generate_lhc.py -n_samples 12 -n_processes 4
+#$ python 1_generate_lhc.py -n_samples_per_process 120 -n_processes 4 -yaml_file yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml
 import argparse
 import numpy as np
 import yaml
@@ -10,20 +10,32 @@ import pyDOE as pyDOE
 
 set_width_from_plc18 = True
 test_lh_boundaries = False
+with_classy_precision = False
 
 def run(args):
-    n_samples = args.n_samples #int(sys.argv[1])
+    n_samples_per_process = args.n_samples_per_process #int(sys.argv[1])
     n_processes  = args.n_processes #int(sys.argv[2]) # should be the same as number of "-np" processes
-
-    n_samples_per_process = int(n_samples/n_processes)
+    n_samples = n_samples_per_process*n_processes
 
 
 
     path_to_cosmopower_dir = resource_filename("cosmopower","/../")
 
-    data_dir_name = 'ACTPol_lite_DR4_baseLCDM_taup_hip'
 
-    cobaya_yaml_file = path_to_cosmopower_dir+'/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml'
+    cobaya_yaml_file = args.yaml_file
+    # path_to_cosmopower_dir+'/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml'
+    # data_dir_name = 'ACTPol_lite_DR4_baseLCDM_taup_hip'
+
+    # print(cobaya_yaml_file.split('/'))
+    sp_str = cobaya_yaml_file.split('/')
+
+    data_dir_name = sp_str[len(sp_str)-1]
+    yaml_file_name = data_dir_name
+    data_dir_name = data_dir_name.replace('.yaml','')
+
+
+
+    data_dir_name += '_'+str(n_processes)+'_by_'+str(n_samples_per_process)
 
     with open(cobaya_yaml_file) as f:
         dict_from_yaml_file = yaml.load(f,Loader=yaml.FullLoader)
@@ -31,11 +43,15 @@ def run(args):
     # get path to the folder of this script
     # folder_path = os.path.abspath(os.path.dirname(__file__))
     folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name
-
     try:
         os.mkdir(folder_path)
     except FileExistsError:
         print("File exist")
+
+    with open(folder_path+'/'+yaml_file_name, 'w') as file:
+        yaml.dump(dict_from_yaml_file, file)
+
+
 
 
 
@@ -135,7 +151,8 @@ def run(args):
 
             cosmo.set(params)
             cosmo.set(class_params_dict)
-            # cosmo.set(classy_precision)
+            if with_classy_precision:
+                cosmo.set(classy_precision)
             cosmo.compute()
             print('done')
 
@@ -178,8 +195,9 @@ def run(args):
 
 def main():
     parser=argparse.ArgumentParser(description="generate spectra")
-    parser.add_argument("-n_samples",help="n_samples" ,dest="n_samples", type=int, required=True)
+    parser.add_argument("-n_samples_per_process",help="n_samples_per_process" ,dest="n_samples_per_process", type=int, required=True)
     parser.add_argument("-n_processes",help="n_processes" ,dest="n_processes", type=int, required=True)
+    parser.add_argument("-yaml_file",help="yaml_file" ,dest="yaml_file", type=str, required=True)
     parser.set_defaults(func=run)
     args=parser.parse_args()
     args.func(args)

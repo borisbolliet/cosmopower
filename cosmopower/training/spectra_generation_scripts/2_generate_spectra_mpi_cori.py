@@ -1,5 +1,5 @@
 # this should be run with:
-#$ mpirun -np 4 generate_spectra_mpi.py -n_samples 12 -n_processes 4
+#$ mpirun -np 4 python 2_generate_spectra_mpi.py -n_samples 12 -n_processes 4
 import argparse
 import numpy as np
 from mpi4py import MPI
@@ -9,6 +9,7 @@ import os
 from classy_sz import Class
 from pkg_resources import resource_filename
 # print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
+with_classy_precision = False
 
 def run(args):
     n_samples = args.n_samples #int(sys.argv[1])
@@ -107,7 +108,8 @@ def run(args):
 
         cosmo.set(params)
         cosmo.set(class_params_dict)
-        # cosmo.set(classy_precision)
+        if with_classy_precision:
+            cosmo.set(classy_precision)
         cosmo.compute()
         cls = cosmo.lensed_cl(lmax=lmax)
 

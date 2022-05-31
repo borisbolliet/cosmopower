@@ -1,21 +1,51 @@
 # this should be run with:
-#$ mpirun -np 4 generate_spectra_mpi.py -n_samples 12 -n_processes 4
+# from inside: /spectra_generation_scripts/
+#$ mpirun -np 4 python 2_generate_spectra_mpi.py -dir ../training_data/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_15
 import argparse
 import numpy as np
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
 import yaml
 import os
+import glob
 from classy_sz import Class
 from pkg_resources import resource_filename
-# print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
+print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
+
+from itertools import groupby
+
+def all_equal(iterable):
+    g = groupby(iterable)
+    return next(g, True) and not next(g, False)
+
+with_classy_precision = False
+
 
 def run(args):
-    n_samples = args.n_samples #int(sys.argv[1])
-    n_processes  = args.n_processes #int(sys.argv[2]) # should be the same as number of "-np" processes
+    def check_params_and_files():
+        print('checking params and files')
+    # n_samples = args.n_samples #int(sys.argv[1])
+    # n_processes  = args.n_processes #int(sys.argv[2]) # should be the same as number of "-np" processes
 
-    n_samples_per_process = int(n_samples/n_processes)
-    print('doing %d times %d calculations'%(n_processes,n_samples_per_process))
+    n_processes = comm.Get_size()
+    # n_samples_per_process = int(n_samples/n_processes)
+
+    dir = args.dir
+    dir = dir.split('/')[len(dir.split('/'))-1]
+    n_samples_per_process = dir.split('_')[len(dir.split('_'))-1]
+    n_samples_per_process = int(n_samples_per_process)
+
+    n_process_check = dir.split('_')[len(dir.split('_'))-3]
+    n_process_check = int(n_process_check)
+    # check we ask for the correct number of samples and processes
+    if n_processes != n_process_check:
+        print('Wrong number of processes requested.')
+        print('This number should be equal to the number of LHs in the directory.')
+        print('The correct number is %d.'%n_process_check)
+        exit(0)
+
+    print('doing %d (%d) times %d calculations'%(n_processes,n_process_check,n_samples_per_process))
+
 
     derived_params_names = ['h',
                             'sigma8',
@@ -40,13 +70,12 @@ def run(args):
 
     path_to_cosmopower_dir = resource_filename("cosmopower","/../")
 
-    # print(path_to_cosmopower_dir)
-    # exit()
-    data_dir_name = 'ACTPol_lite_DR4_baseLCDM_taup_hip'
 
-    cobaya_yaml_file = path_to_cosmopower_dir+'/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml'
+    cobaya_yaml_file = glob.glob(args.dir+"/*.yaml")[0]
+    # path_to_cosmopower_dir+'/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml'
     with open(cobaya_yaml_file) as f:
         dict_from_yaml_file = yaml.load(f,Loader=yaml.FullLoader)
+
 
     classy_precision = dict_from_yaml_file['theory']['classy']['extra_args']
     # try:
@@ -55,22 +84,22 @@ def run(args):
     #     print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/TT')
+        os.mkdir(args.dir+'/TT')
     except FileExistsError:
         print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/TE')
+        os.mkdir(args.dir+'/TE')
     except FileExistsError:
         print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/EE')
+        os.mkdir(args.dir+'/EE')
     except FileExistsError:
         print("File exist")
 
     try:
-        os.mkdir(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/PP')
+        os.mkdir(args.dir+'/PP')
     except FileExistsError:
         print("File exist")
 
@@ -100,13 +129,21 @@ def run(args):
 
     # get path to the folder of this script
     # folder_path = os.path.abspath(os.path.dirname(__file__))
-    folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name
+    folder_path = args.dir
 
 
     lmax = dict_from_yaml_file['theory']['classy']['extra_args']['l_max_scalars']
     # load parameter file for this process index
     params_lhs  = np.load(folder_path+'/LHS_parameter_file_{}.npz'.format(idx_process))
 
+
+    # for k in params_lhs:
+    #     n_samples_per_process_from_lhs = len(params_lhs[k])
+    #     break
+    # if n_samples_per_process_from_lhs != n_samples_per_process:
+    #     print('Wrong number of samples requested.')
+    #     print('The correct number of samples is %d.'%(n_samples_per_process_from_lhs*n_processes))
+    #     exit(0)
 
 
     def spectra_generation(idx_sample):
@@ -127,7 +164,8 @@ def run(args):
 
         cosmo.set(params)
         cosmo.set(class_params_dict)
-        # cosmo.set(classy_precision)
+        if with_classy_precision:
+            cosmo.set(classy_precision)
         cosmo.compute()
         cls = cosmo.lensed_cl(lmax=lmax)
 
@@ -162,16 +200,114 @@ def run(args):
         file_pp.close()
 
 
+    n_samples_per_process_start = 0
 
-    # loop over parameter sets in parameter file corresponding to the running process
-    for i in range(n_samples_per_process):
-        spectra_generation(i)
+
+    if args.restart=='yes':
+        nparams = np.shape(params_lhs)[0]
+        n_samples_per_process_start = []
+        dns = ['TT','TE','EE','PP']
+        clns = ['tt','te','ee','pp']
+        for (dn,cln) in zip(dns,clns):
+            f = np.loadtxt(folder_path+'/%s/cls_%s_nointerp_%s.dat'%(dn,cln,str(idx_process)))
+            t_params_f = f[np.shape(f)[0]-1][:nparams]
+            for idx_samplep in range(n_samples_per_process):
+                t_params_lhs = [params_lhs[k][idx_samplep] for k in params_lhs]
+                a_diff = np.asarray(t_params_lhs) - np.asarray(t_params_f)
+                if a_diff.all() == 0:
+                    print('restarting at sample %d'%(idx_samplep+2))
+                    n_samples_per_process_start.append(idx_samplep + 1)
+                    break
+        # cut the file
+        if not all_equal(n_samples_per_process_start):
+            print(n_samples_per_process_start)
+            print(min(n_samples_per_process_start))
+            idn_min = n_samples_per_process_start.index(min(n_samples_per_process_start))
+            print(idn_min)
+            print(dns[idn_min],clns[idn_min])
+            print(dns)
+            with open(folder_path+'/%s/cls_%s_nointerp_%s.dat'%(dns[idn_min],clns[idn_min],str(idx_process)), 'r') as fp:
+                lines = fp.readlines()
+            nlines_min = len(lines)
+            print('nlines_min:',nlines_min)
+
+            dns.pop(idn_min)
+            clns.pop(idn_min)
+            print('new list:',dns,clns)
+            for (dn,cln) in zip(dns,clns):
+                lines = []
+                with open(folder_path+'/%s/cls_%s_nointerp_%s.dat'%(dn,cln,str(idx_process)), 'r') as fp:
+                    lines = fp.readlines()
+                nlines = len(lines)
+                with open(folder_path+'/%s/cls_%s_nointerp_%s.dat'%(dn,cln,str(idx_process)), 'w') as fp:
+                    for number, line in enumerate(lines):
+                        # # delete line 5 and 8. or pass any Nth line you want to remove
+                        # # note list index starts from 0
+                        # if number in np.arange(nlines_min,nlines):
+                        #     print(number)
+                        if number not in np.arange(nlines_min,nlines):
+                            fp.write(line)
+
+
+
+        # f = np.loadtxt(folder_path+'/%s/cls_%s_nointerp_%s.dat'%('PP','pp',str(idx_process)))
+
+        # # list to store file lines
+        # lines = []
+        # # read file
+        # with open(folder_path+'/%s/cls_%s_nointerp_%s.dat'%('PP','pp',str(idx_process)), 'r') as fp:
+        #     # read an store all lines into list
+        #     lines = fp.readlines()
+        #
+        # nlines = len(lines)
+        # print(nlines)
+        # # Write file
+        # with open(folder_path+'/%s/cls_%s_nointerp_%s.dat'%('PP','pp',str(idx_process)), 'w') as fp:
+        #     # iterate each line
+        #     for number, line in enumerate(lines):
+        #         # delete line 5 and 8. or pass any Nth line you want to remove
+        #         # note list index starts from 0
+        #         if number not in [nlines-1]:
+        #             fp.write(line)
+        # exit(0)
+        # # Write file
+        # with open(folder_path+'/%s/cls_%s_nointerp_%s.dat'%('PP','pp',str(idx_process)), 'w') as fp:
+        #     # iterate each line
+        #     for number, line in enumerate(lines):
+        #         # delete line 5 and 8. or pass any Nth line you want to remove
+        #         # note list index starts from 0
+        #         if number not in [4, 7]:
+        #             fp.write(line)
+
+
+        n_samples_per_process_start = min(n_samples_per_process_start)
+
+        # exit(0)
+    else:
+        print('Starting computation from first sample.')
+        print('If you want to restart from last sample, set -restart "yes".')
+        # exit(0)
+
+    if n_samples_per_process_start == n_samples_per_process:
+        print('computation finished for process %d'%(comm.Get_rank()+1))
+        check_params_and_files()
+    else:
+        # loop over parameter sets in parameter file corresponding to the running process
+        for i in range(n_samples_per_process_start,n_samples_per_process):
+            print('doing sample %d/%d in process %d...'%(i+1,n_samples_per_process,comm.Get_rank()+1))
+            spectra_generation(i)
+            print('sample %d/%d in process %d done.'%(i+1,n_samples_per_process,comm.Get_rank()+1))
+
+        print('computation finished for process %d'%(comm.Get_rank()+1))
+        check_params_and_files()
+
+
 
 
 def main():
     parser=argparse.ArgumentParser(description="generate spectra")
-    parser.add_argument("-n_samples",help="n_samples" ,dest="n_samples", type=int, required=True)
-    parser.add_argument("-n_processes",help="n_processes" ,dest="n_processes", type=int, required=True)
+    parser.add_argument("-dir",help="dir" ,dest="dir", type=str, required=True)
+    parser.add_argument("-restart",help="restart" ,dest="restart", type=str, required=False)
     parser.set_defaults(func=run)
     args=parser.parse_args()
     args.func(args)
