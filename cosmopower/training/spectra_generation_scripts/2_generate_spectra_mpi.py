@@ -309,6 +309,7 @@ def run(args):
         print('computation finished for process %d'%(comm.Get_rank()+1))
         check_params_and_files()
     end = time.time()
+    seconds = end - start
     m, s = divmod(seconds, 60)
     h, m = divmod(m, 60)
     print ('Time elapsed: {:d}:{:02d}:{:02d}'.format(h, m, s))
