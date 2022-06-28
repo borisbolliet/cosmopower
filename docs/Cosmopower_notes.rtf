@@ -1,15 +1,34 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Menlo-Regular;
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 ArialMT;\f2\fswiss\fcharset0 Helvetica;
+\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 HelveticaNeue-Bold;\f5\fnil\fcharset0 AndaleMono;
 }
-{\colortbl;\red255\green255\blue255;\red193\green101\blue28;\red46\green174\blue187;\red200\green20\blue201;
-\red180\green36\blue25;\red0\green0\blue0;}
-{\*\expandedcolortbl;;\cssrgb\c80553\c47366\c13835;\cssrgb\c20196\c73240\c78250;\cssrgb\c83396\c23075\c82664;
-\cssrgb\c76409\c21698\c12524;\cssrgb\c0\c0\c0;}
-\margl1440\margr1440\vieww28980\viewh8600\viewkind0
+{\colortbl;\red255\green255\blue255;\red16\green60\blue192;\red255\green255\blue255;\red193\green101\blue28;
+\red46\green174\blue187;\red200\green20\blue201;\red180\green36\blue25;\red0\green0\blue0;\red0\green0\blue0;
+\red38\green38\blue38;\red244\green244\blue244;}
+{\*\expandedcolortbl;;\cssrgb\c6667\c33333\c80000;\cssrgb\c100000\c100000\c100000;\cssrgb\c80553\c47366\c13835;
+\cssrgb\c20196\c73240\c78250;\cssrgb\c83396\c23075\c82664;\cssrgb\c76409\c21698\c12524;\cssrgb\c0\c0\c0;\csgray\c0;
+\cssrgb\c20000\c20000\c20000;\cssrgb\c96471\c96471\c96471;}
+\margl1440\margr1440\vieww28980\viewh16440\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\b\fs24 \cf0 \ul \ulc0 Environment variable to set the path to cosmopower 
-\f1\b0 \ulnone \
+\f0\b\fs24 \cf0 \ul \ulc0 Useful links to Flatiron Machines:\
+\
+\
+\pard\pardeftab720\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://wiki.flatironinstitute.org/SCC/Overview"}}{\fldrslt 
+\f1\b0\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\ulc2 https://wiki.flatironinstitute.org/SCC/Overview}}
+\f1\b0\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\ulc2 \
+\pard\pardeftab720\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://wiki.flatironinstitute.org/SCC/Software/MPI"}}{\fldrslt \cf2 \ulc2 https://wiki.flatironinstitute.org/SCC/Software/MPI}}\
+\pard\pardeftab720\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://wiki.flatironinstitute.org/SCC/Software/Slurm"}}{\fldrslt \cf2 \ulc2 https://wiki.flatironinstitute.org/SCC/Software/Slurm}}
+\f0\b\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \ulc0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ulc0 \
+Environment variable to set the path to cosmopower 
+\f2\b0 \ulnone \
 \
 \
 It is useful to define an environment variable in order to set the path to the code.\
@@ -21,10 +40,10 @@ Copy paste the following line into bashrc:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f2\fs22 \cf2 \CocoaLigature0 export\cf3  PATH_TO_COSMOPOWER_DIR=\cf2 "\cf4 $HOME\cf5 /cosmopower\cf2 "\
+\f3\fs22 \cf4 \CocoaLigature0 export\cf5  PATH_TO_COSMOPOWER_DIR=\cf4 "\cf6 $HOME\cf7 /cosmopower\cf4 "\
 \
 
-\f1\fs24 \cf6 Then esc+:wq to save and quit the .\CocoaLigature1 bashrc file\
+\f2\fs24 \cf8 Then esc+:wq to save and quit the .\CocoaLigature1 bashrc file\
 \
 $ source .bashrc\
 \
@@ -32,6 +51,14 @@ Now if you do:\
 \
 $ ls $PATH_TO_COSMOPOWER_DIR\
 You should see the content of the code directory. \
+\
+In the same way we can define the path to the directory where we want to save the training data. For instance on FI machines:\
+\
+
+\f3\fs22 \cf4 \CocoaLigature0 export\cf5  PATH_TO_COSMOPOWER_DATA=\cf4 "\cf7 /mnt/ceph/users/bbolliet/cosmopower_training_data\cf4 "\
+\
+
+\f2\fs24 \cf8 Assuming the cosmopower_training_data directory as been previously created. \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 \
@@ -39,13 +66,52 @@ You should see the content of the code directory. \
 
 \f0\b \ul Generating the latin hypercube of parameters\
 
-\f1\b0 \ulnone \
+\f2\b0 \ulnone \
 The first task is to generate the latin hyper cube (LHC)\
 \
 We use the script: cosmopower/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py\
 \
 This script is run with a command as below:\
 \
-$ python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs22 \cf9 \CocoaLigature0 $ python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml -path_to_training_data_dir $\cf5 PATH_TO_COSMOPOWER_DATA
+\f2\fs24 \cf0 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 On FI/rusty:\
 \
-}
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f4\b \cf0 salloc -N 1 -C 
+\f5\b0\fs23\fsmilli11838 \cf10 \cb11 \expnd0\expndtw0\kerning0
+rome,ib
+\f4\b\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0   
+\f3\b0\fs22 \cf9 \CocoaLigature0 python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml -path_to_training_data_dir $PATH_TO_COSMOPOWER_DATA
+\f2\fs24 \cf0 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+After this, we have created LHC files:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs22 \cf9 \CocoaLigature0 [bbolliet@rustyamd2 cosmopower]$ ls $PATH_TO_COSMOPOWER_DATA/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20\
+ACTPol_lite_DR4_baseLCDM_taup_hip.yaml  LHS_parameter_file_1.npz  LHS_parameter_file_2.npz  LHS_parameter_file_3.npz  LHS_parameter_file_4.npz  LHS_parameter_file.npz\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 \ul \ulc0 \CocoaLigature1 Sampling with the Boltzman code\
+
+\f2\b0 \ulnone \
+The next step is to run the Boltzmann code to sample the parameters. \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f3\fs22 \cf9 \CocoaLigature0 \
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f4\b\fs24 \cf0 \CocoaLigature1 salloc -N 1 -C 
+\f5\b0\fs23\fsmilli11838 \cf10 \cb11 \expnd0\expndtw0\kerning0
+rome,ib 
+\f3\fs22 \cf9 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 mpirun -np 4 python 2_generate_spectra_mpi.py -dir ../training_data/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20}

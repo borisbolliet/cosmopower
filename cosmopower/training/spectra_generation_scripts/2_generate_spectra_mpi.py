@@ -36,6 +36,11 @@ def run(args):
     n_samples_per_process = dir.split('_')[len(dir.split('_'))-1]
     n_samples_per_process = int(n_samples_per_process)
 
+    boltzmann_verbose = args.boltzmann_verbose
+    if boltzmann_verbose is None:
+        boltzmann_verbose = 0
+
+
     n_process_check = dir.split('_')[len(dir.split('_'))-3]
     n_process_check = int(n_process_check)
     # check we ask for the correct number of samples and processes
@@ -160,7 +165,7 @@ def run(args):
         params = {'output': 'tCl pCl lCl mPk',
                   'lensing': 'yes',
                   'l_max_scalars': lmax,
-                  'perturbations_verbose':0
+                  'perturbations_verbose':boltzmann_verbose
                   }
 
         cosmo.set(params)
@@ -309,6 +314,7 @@ def main():
     parser=argparse.ArgumentParser(description="generate spectra")
     parser.add_argument("-dir",help="dir" ,dest="dir", type=str, required=True)
     parser.add_argument("-restart",help="restart" ,dest="restart", type=str, required=False)
+    parser.add_argument("-boltzmann_verbose",help="boltzmann_verbose" ,dest="boltzmann_verbose", type=int, required=False)
     parser.set_defaults(func=run)
     args=parser.parse_args()
     args.func(args)
