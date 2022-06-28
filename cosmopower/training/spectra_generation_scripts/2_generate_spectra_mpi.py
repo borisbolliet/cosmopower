@@ -312,7 +312,7 @@ def run(args):
     seconds = end - start
     m, s = divmod(seconds, 60)
     h, m = divmod(m, 60)
-    print ('Time elapsed: {:d}:{:02d}:{:02d}'.format(h, m, s))
+    print ('Time elapsed:'+f'{h:d}:{m:02d}:{s:02d}')
 
 
 
