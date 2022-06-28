@@ -10,6 +10,7 @@ import os
 import glob
 from classy_sz import Class
 from pkg_resources import resource_filename
+import time
 
 # print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
 
@@ -23,6 +24,7 @@ with_classy_precision = False
 
 
 def run(args):
+    start = time.time()
     def check_params_and_files():
         print('checking params and files')
     # n_samples = args.n_samples #int(sys.argv[1])
@@ -306,6 +308,10 @@ def run(args):
 
         print('computation finished for process %d'%(comm.Get_rank()+1))
         check_params_and_files()
+    end = time.time()
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    print ('Time elapsed: {:d}:{:02d}:{:02d}'.format(h, m, s))
 
 
 

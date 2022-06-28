@@ -1,12 +1,12 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 ArialMT;\f2\fswiss\fcharset0 Helvetica;
-\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 HelveticaNeue-Bold;\f5\fnil\fcharset0 AndaleMono;
-}
-{\colortbl;\red255\green255\blue255;\red16\green60\blue192;\red255\green255\blue255;\red193\green101\blue28;
-\red46\green174\blue187;\red200\green20\blue201;\red180\green36\blue25;\red0\green0\blue0;\red0\green0\blue0;
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 ArialMT;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fswiss\fcharset0 Helvetica;\f4\fnil\fcharset0 HelveticaNeue-Bold;\f5\fnil\fcharset0 AndaleMono;
+\f6\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red16\green60\blue192;\red255\green255\blue255;\red0\green0\blue0;
+\red193\green101\blue28;\red46\green174\blue187;\red200\green20\blue201;\red180\green36\blue25;\red0\green0\blue0;
 \red38\green38\blue38;\red244\green244\blue244;}
-{\*\expandedcolortbl;;\cssrgb\c6667\c33333\c80000;\cssrgb\c100000\c100000\c100000;\cssrgb\c80553\c47366\c13835;
-\cssrgb\c20196\c73240\c78250;\cssrgb\c83396\c23075\c82664;\cssrgb\c76409\c21698\c12524;\cssrgb\c0\c0\c0;\csgray\c0;
+{\*\expandedcolortbl;;\cssrgb\c6667\c33333\c80000;\cssrgb\c100000\c100000\c100000;\csgray\c0;
+\cssrgb\c80553\c47366\c13835;\cssrgb\c20196\c73240\c78250;\cssrgb\c83396\c23075\c82664;\cssrgb\c76409\c21698\c12524;\cssrgb\c0\c0\c0;
 \cssrgb\c20000\c20000\c20000;\cssrgb\c96471\c96471\c96471;}
 \margl1440\margr1440\vieww28980\viewh16440\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
@@ -27,8 +27,20 @@
 \f0\b\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \ulc0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \ulc0 \
+Python version\
+\
+before each session do:\
+\
+$ 
+\f2\b0\fs22 \cf4 \ulnone \CocoaLigature0 conda deactivate\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+$ conda activate cobaya-env
+\f0\b\fs24 \cf0 \ul \ulc0 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ulc0 \
+\
 Environment variable to set the path to cosmopower 
-\f2\b0 \ulnone \
+\f3\b0 \ulnone \
 \
 \
 It is useful to define an environment variable in order to set the path to the code.\
@@ -40,10 +52,10 @@ Copy paste the following line into bashrc:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f3\fs22 \cf4 \CocoaLigature0 export\cf5  PATH_TO_COSMOPOWER_DIR=\cf4 "\cf6 $HOME\cf7 /cosmopower\cf4 "\
+\f2\fs22 \cf5 \CocoaLigature0 export\cf6  PATH_TO_COSMOPOWER_DIR=\cf5 "\cf7 $HOME\cf8 /cosmopower\cf5 "\
 \
 
-\f2\fs24 \cf8 Then esc+:wq to save and quit the .\CocoaLigature1 bashrc file\
+\f3\fs24 \cf9 Then esc+:wq to save and quit the .\CocoaLigature1 bashrc file\
 \
 $ source .bashrc\
 \
@@ -55,10 +67,10 @@ You should see the content of the code directory. \
 In the same way we can define the path to the directory where we want to save the training data. For instance on FI machines:\
 \
 
-\f3\fs22 \cf4 \CocoaLigature0 export\cf5  PATH_TO_COSMOPOWER_DATA=\cf4 "\cf7 /mnt/ceph/users/bbolliet/cosmopower_training_data\cf4 "\
+\f2\fs22 \cf5 \CocoaLigature0 export\cf6  PATH_TO_COSMOPOWER_DATA=\cf5 "\cf8 /mnt/ceph/users/bbolliet/cosmopower_training_data\cf5 "\
 \
 
-\f2\fs24 \cf8 Assuming the cosmopower_training_data directory as been previously created. \CocoaLigature1 \
+\f3\fs24 \cf9 Assuming the cosmopower_training_data directory as been previously created. \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 \
@@ -66,7 +78,7 @@ In the same way we can define the path to the directory where we want to save th
 
 \f0\b \ul Generating the latin hypercube of parameters\
 
-\f2\b0 \ulnone \
+\f3\b0 \ulnone \
 The first task is to generate the latin hyper cube (LHC)\
 \
 We use the script: cosmopower/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py\
@@ -75,8 +87,8 @@ This script is run with a command as below:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f3\fs22 \cf9 \CocoaLigature0 $ python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml -path_to_training_data_dir $\cf5 PATH_TO_COSMOPOWER_DATA
-\f2\fs24 \cf0 \CocoaLigature1 \
+\f2\fs22 \cf4 \CocoaLigature0 $ python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml -path_to_training_data_dir $\cf6 PATH_TO_COSMOPOWER_DATA
+\f3\fs24 \cf0 \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
@@ -84,34 +96,96 @@ This script is run with a command as below:\
 \
 \pard\pardeftab560\slleading20\partightenfactor0
 
-\f4\b \cf0 salloc -N 1 -C 
+\f4\b \cf0 $ salloc -N 1 -C 
 \f5\b0\fs23\fsmilli11838 \cf10 \cb11 \expnd0\expndtw0\kerning0
 rome,ib
 \f4\b\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0   
-\f3\b0\fs22 \cf9 \CocoaLigature0 python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml -path_to_training_data_dir $PATH_TO_COSMOPOWER_DATA
-\f2\fs24 \cf0 \CocoaLigature1 \
+\f2\b0\fs22 \cf4 \CocoaLigature0 python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml -path_to_training_data_dir $PATH_TO_COSMOPOWER_DATA
+\f3\fs24 \cf0 \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 After this, we have created LHC files:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f3\fs22 \cf9 \CocoaLigature0 [bbolliet@rustyamd2 cosmopower]$ ls $PATH_TO_COSMOPOWER_DATA/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20\
+\f2\fs22 \cf4 \CocoaLigature0 [bbolliet@rustyamd2 cosmopower]$ ls $PATH_TO_COSMOPOWER_DATA/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20\
 ACTPol_lite_DR4_baseLCDM_taup_hip.yaml  LHS_parameter_file_1.npz  LHS_parameter_file_2.npz  LHS_parameter_file_3.npz  LHS_parameter_file_4.npz  LHS_parameter_file.npz\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\b\fs24 \cf0 \ul \ulc0 \CocoaLigature1 Sampling with the Boltzman code\
 
-\f2\b0 \ulnone \
+\f3\b0 \ulnone \
 The next step is to run the Boltzmann code to sample the parameters. \
 \pard\pardeftab560\slleading20\partightenfactor0
 
-\f3\fs22 \cf9 \CocoaLigature0 \
+\f2\fs22 \cf4 \CocoaLigature0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f3\fs24 \cf0 \CocoaLigature1 On FI/rusty:\
+
+\f2\fs22 \cf4 \CocoaLigature0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f4\b\fs24 \cf0 \CocoaLigature1 salloc -N 4 -C 
+\f5\b0\fs23\fsmilli11838 \cf10 \cb11 \expnd0\expndtw0\kerning0
+rome,ib -c 128 
+\f2\fs22 \cf4 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 mpirun -np 4 python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/2_generate_spectra_mpi.py -dir $PATH_TO_COSMOPOWER_DATA/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20 -boltzmann_verbose 10\
+\
+\
+\
+\
+\
+Here is an example slurm file:\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 
+\f6\b File begins
+\f2\b0  \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+#!/bin/bash\
+#Run 28 tasks (in this case MPI subprocesses) per node (the default is one per core).\
+#Run on 4 nodes\
+#SBATCH -N4 --exclusive -p cca --ntasks=4 --cpus-per-task=28 --hint=nomultithread\
+\
+# Start from an "empty" module collection.\
+module purge\
+# Load in what we need to execute mpirun.\
+module load slurm\
+module load gcc\
+module load python3/3.7.3\
+module load openmpi2\
+module load python3-mpi4py/3.7.3-openmpi2\
+#module load slurm gcc openmpi2 python3/3.7.3\
+#module load python3-mpi4py lib/gsl/2.3\
+## disable BLAS threads for improved performance\
+## see FI email from Robert Blackwell on 21 Feb 2020\
+#export OMP_NUM_THREADS=28\
+#export MKL_NUM_THREADS=28\
+\
+# Set OMP_NUM_THREADS to the same value as --cpus-per-task\
+# with a fallback in case it isn't set.\
+# SLURM_CPUS_PER_TASK is set to the value of --cpus-per-task, but only if --cpus-per-task is explicitly set\
+if [ -n "$SLURM_CPUS_PER_TASK" ]; then\
+  omp_threads=$SLURM_CPUS_PER_TASK\
+else\
+  omp_threads=1\
+fi\
+export OMP_NUM_THREADS=$omp_threads\
+\
+# We assume this executable is in the directory from which you ran sbatch.\
+srun --cpu_bind=cores cobaya-run -r ACTPol_lite_DR4_EDEshoot_taup_planck2018_lowTT_plikHM_TT_lmax650_hip.yaml\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 
+\f6\b File ends
+\f2\b0  \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
 \
 \pard\pardeftab560\slleading20\partightenfactor0
 
-\f4\b\fs24 \cf0 \CocoaLigature1 salloc -N 1 -C 
-\f5\b0\fs23\fsmilli11838 \cf10 \cb11 \expnd0\expndtw0\kerning0
-rome,ib 
-\f3\fs22 \cf9 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 mpirun -np 4 python 2_generate_spectra_mpi.py -dir ../training_data/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20}
+\f6\b \ul Check mpi4py is installed correctly:
+\f2\b0 \ulnone \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+[bbolliet@rustyamd2 cosmopower]$ mpirun -n 2 python -c "from mpi4py import MPI, __version__; print(__version__ if MPI.COMM_WORLD.Get_rank() else '')"\
+\
+this should return the version of mpi4py}
