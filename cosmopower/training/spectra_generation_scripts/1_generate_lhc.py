@@ -18,7 +18,7 @@ def run(args):
     n_samples = n_samples_per_process*n_processes
 
     path_to_training_data_dir = args.path_to_training_data_dir
-    print(path_to_training_data_dir)
+
 
 
 
@@ -45,17 +45,21 @@ def run(args):
 
     # get path to the folder of this script
     # folder_path = os.path.abspath(os.path.dirname(__file__))
-    folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data'
+    if (path_to_training_data_dir is None):
+        folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data'
+        try:
+            os.mkdir(folder_path)
+        except FileExistsError:
+            print("File exist")
+        folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data'
+    else:
+        folder_path = path_to_training_data_dir
+    folder_path += '/'+data_dir_name
     try:
         os.mkdir(folder_path)
     except FileExistsError:
         print("File exist")
 
-    folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name
-    try:
-        os.mkdir(folder_path)
-    except FileExistsError:
-        print("File exist")
 
     with open(folder_path+'/'+yaml_file_name, 'w') as file:
         yaml.dump(dict_from_yaml_file, file)
@@ -195,7 +199,8 @@ def run(args):
         ip+=1
 
 
-    np.savez(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/LHS_parameter_file.npz', **lh_param_dict)
+    # np.savez(path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name+'/LHS_parameter_file.npz', **lh_param_dict)
+    np.savez(folder_path+'/LHS_parameter_file.npz', **lh_param_dict)
 
 
     # saving
