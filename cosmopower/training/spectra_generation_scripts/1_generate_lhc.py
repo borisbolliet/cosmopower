@@ -17,6 +17,9 @@ def run(args):
     n_processes  = args.n_processes #int(sys.argv[2]) # should be the same as number of "-np" processes
     n_samples = n_samples_per_process*n_processes
 
+    path_to_training_data_dir = args.path_to_training_data_dir
+    print(path_to_training_data_dir)
+
 
 
     path_to_cosmopower_dir = resource_filename("cosmopower","/../")
@@ -205,6 +208,7 @@ def main():
     parser.add_argument("-n_samples_per_process",help="n_samples_per_process" ,dest="n_samples_per_process", type=int, required=True)
     parser.add_argument("-n_processes",help="n_processes" ,dest="n_processes", type=int, required=True)
     parser.add_argument("-yaml_file",help="yaml_file" ,dest="yaml_file", type=str, required=True)
+    parser.add_argument("-path_to_training_data_dir",help="path_to_training_data_dir" ,dest="path_to_training_data_dir", type=str, required=False)
     parser.set_defaults(func=run)
     args=parser.parse_args()
     args.func(args)
