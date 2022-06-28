@@ -127,10 +127,10 @@ The next step is to run the Boltzmann code to sample the parameters. \
 \f2\fs22 \cf4 \CocoaLigature0 \
 \pard\pardeftab560\slleading20\partightenfactor0
 
-\f4\b\fs24 \cf0 \CocoaLigature1 salloc -N 4 -C 
+\f4\b\fs24 \cf0 \CocoaLigature1 salloc -N 1 -C 
 \f5\b0\fs23\fsmilli11838 \cf10 \cb11 \expnd0\expndtw0\kerning0
 rome,ib -c 128 
-\f2\fs22 \cf4 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 mpirun -np 4 python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/2_generate_spectra_mpi.py -dir $PATH_TO_COSMOPOWER_DATA/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20 -boltzmann_verbose 10\
+\f2\fs22 \cf4 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 mpirun -np 4 python $PATH_TO_COSMOPOWER_DIR/cosmopower/training/spectra_generation_scripts/2_generate_spectra_mpi.py -dir $PATH_TO_COSMOPOWER_DATA/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20 -boltzmann_verbose 10 -high_precision 1\
 \
 \
 \

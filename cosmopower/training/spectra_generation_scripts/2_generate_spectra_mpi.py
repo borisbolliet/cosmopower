@@ -22,7 +22,7 @@ def all_equal(iterable):
     g = groupby(iterable)
     return next(g, True) and not next(g, False)
 
-with_classy_precision = False
+with_classy_precision = None
 
 
 def run(args):
@@ -43,6 +43,8 @@ def run(args):
     boltzmann_verbose = args.boltzmann_verbose
     if boltzmann_verbose is None:
         boltzmann_verbose = 0
+
+    with_classy_precision = args.high_precision
 
 
     n_process_check = dir.split('_')[len(dir.split('_'))-3]
@@ -174,7 +176,7 @@ def run(args):
 
         cosmo.set(params)
         cosmo.set(class_params_dict)
-        if with_classy_precision:
+        if with_classy_precision is not None:
             cosmo.set(classy_precision)
         cosmo.compute()
         cls = cosmo.lensed_cl(lmax=lmax)
@@ -320,6 +322,7 @@ def run(args):
 def main():
     parser=argparse.ArgumentParser(description="generate spectra")
     parser.add_argument("-dir",help="dir" ,dest="dir", type=str, required=True)
+    parser.add_argument("-high_precision",help="high_precision" ,dest="high_precision", type=int, required=False)
     parser.add_argument("-restart",help="restart" ,dest="restart", type=str, required=False)
     parser.add_argument("-boltzmann_verbose",help="boltzmann_verbose" ,dest="boltzmann_verbose", type=int, required=False)
     parser.set_defaults(func=run)
