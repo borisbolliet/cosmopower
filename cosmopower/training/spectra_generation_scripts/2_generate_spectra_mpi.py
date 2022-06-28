@@ -11,6 +11,8 @@ import glob
 from classy_sz import Class
 from pkg_resources import resource_filename
 import time
+from time import gmtime
+from time import strftime
 
 # print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
 
@@ -310,9 +312,7 @@ def run(args):
         check_params_and_files()
     end = time.time()
     seconds = end - start
-    m, s = divmod(seconds, 60)
-    h, m = divmod(m, 60)
-    print ('Time elapsed:'+f'{h:d}:{m:02d}:{s:02d}')
+    print ('Time elapsed:'+strftime("%H:%M:%S", gmtime(seconds)))
 
 
 
