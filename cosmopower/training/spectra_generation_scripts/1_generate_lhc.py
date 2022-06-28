@@ -18,6 +18,7 @@ def run(args):
     n_samples = n_samples_per_process*n_processes
 
     path_to_training_data_dir = args.path_to_training_data_dir
+    test_lh_boundaries = args.test_lh_boundaries
 
 
 
@@ -126,7 +127,7 @@ def run(args):
 
     n_params = len(param_list_varied_cosmo)
 
-    if test_lh_boundaries:
+    if test_lh_boundaries == 1:
         # Function to generate all binary strings
         def generateAllBinaryStrings(n, arr, i,combs):
             if i == n:
@@ -212,6 +213,7 @@ def main():
     parser=argparse.ArgumentParser(description="generate spectra")
     parser.add_argument("-n_samples_per_process",help="n_samples_per_process" ,dest="n_samples_per_process", type=int, required=True)
     parser.add_argument("-n_processes",help="n_processes" ,dest="n_processes", type=int, required=True)
+    parser.add_argument("-test_lh_boundaries",help="test_lh_boundaries" ,dest="test_lh_boundaries", type=int, required=False)
     parser.add_argument("-yaml_file",help="yaml_file" ,dest="yaml_file", type=str, required=True)
     parser.add_argument("-path_to_training_data_dir",help="path_to_training_data_dir" ,dest="path_to_training_data_dir", type=str, required=False)
     parser.set_defaults(func=run)
