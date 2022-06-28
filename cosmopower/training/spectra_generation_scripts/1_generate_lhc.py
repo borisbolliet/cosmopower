@@ -1,5 +1,5 @@
 # this should be run with:
-#$ python 1_generate_lhc.py -n_samples_per_process 120 -n_processes 4 -yaml_file yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml
+#$ python 1_generate_lhc.py -n_samples_per_process 20 -n_processes 4 -yaml_file yaml_files/ACTPol_lite_DR4_baseLCDM_taup_hip.yaml
 import argparse
 import numpy as np
 import yaml
@@ -57,7 +57,8 @@ def run(args):
 
 
 
-
+    # it doesnt matter if these params are in the yaml or not.
+    # but order needs to be preserved
     cosmo_params = ['logA','n_s','theta_s_1e2','omega_b','omega_cdm','tau_reio']
     cosmo_params_names_in_class = ['ln10^{10}A_s','n_s','100*theta_s','omega_b','omega_cdm','tau_reio']
 

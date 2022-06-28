@@ -1,6 +1,6 @@
 # this should be run with:
 # from inside: /spectra_generation_scripts/
-#$ mpirun -np 4 python 2_generate_spectra_mpi.py -dir ../training_data/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_15
+#$ mpirun -np 4 python 2_generate_spectra_mpi.py -dir ../training_data/ACTPol_lite_DR4_baseLCDM_taup_hip_4_by_20
 import argparse
 import numpy as np
 from mpi4py import MPI
@@ -10,7 +10,8 @@ import os
 import glob
 from classy_sz import Class
 from pkg_resources import resource_filename
-print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
+
+# print("%d of %d" % (comm.Get_rank(), comm.Get_size()))
 
 from itertools import groupby
 
