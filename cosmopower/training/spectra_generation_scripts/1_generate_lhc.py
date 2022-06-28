@@ -42,6 +42,12 @@ def run(args):
 
     # get path to the folder of this script
     # folder_path = os.path.abspath(os.path.dirname(__file__))
+    folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data'
+    try:
+        os.mkdir(folder_path)
+    except FileExistsError:
+        print("File exist")
+
     folder_path = path_to_cosmopower_dir+'/cosmopower/training/training_data/'+data_dir_name
     try:
         os.mkdir(folder_path)
